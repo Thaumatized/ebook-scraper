@@ -4,7 +4,7 @@ Hi!
 
 This scraper is used to convert ebooks into images for printing.
 
-To use install pyautogui and keyboard and call
+To use install pyautogui and pynput and call
 > python3 ebook-scraper.py
 
 the instructions will take you from there.
@@ -17,3 +17,7 @@ To make the images into a pdf call
 > python3 scraped-to-pdf.py
 
 the instructions will take you from there.
+
+### Future plans
+
+I want to replace pyautogui with just pillow and pynput, since pynput should allow for everything I need from pyautogui except screenshot. Pyautogui is a leftover from when this project used keyboard and wasn't compatible with linux for that reason.

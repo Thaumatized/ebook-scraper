@@ -1,7 +1,10 @@
 import pyautogui
-import keyboard
+from pynput import keyboard
+
 import time
 import os
+
+keyboardController = keyboard.Controller()
 
 inputSleep = 0.01
 
@@ -10,16 +13,34 @@ right = 0
 bottom = 0
 left = 0
 
+# ------ START OF SECTION ------
+keyStatuses = {}
+def on_press(key):
+    keyStatuses[str(key)] = True
+    
+def on_release(key):
+    keyStatuses[str(key)] = False
+    
+listener = keyboard.Listener(
+    on_press=on_press,
+    on_release=on_release)
+listener.start()
+
 # like keyboard.wait
 # but continues if not pressed
 # and doesn't register multiple strokes if held
 def detectPress(keycode):
-    pressDetected = False
-    while keyboard.is_pressed(keycode):
-        time.sleep(0.01)
-        pressDetected = True
+    if keycode not in keyStatuses:
+        return False
 
-    return pressDetected
+    if keyStatuses[keycode] == False:
+        return False
+
+    while keyStatuses[keycode]:
+        time.sleep(0.01)
+
+    return True
+# ------ END OF SECTION ------
 
 def inputInteger():
     while True:
@@ -32,14 +53,14 @@ def inputInteger():
 print("Lets start with the rough coordinates.")
 
 print("Move your mouse to the top left corner and press ctrl")
-while not detectPress("ctrl"):
+while not detectPress("Key.ctrl"):
     time.sleep(inputSleep)
 topLeft = pyautogui.position()
 top = topLeft.y
 left = topLeft.x
 
 print("Move your mouse to the bottom Right corner and press ctrl")
-while not detectPress("ctrl"):
+while not detectPress("Key.ctrl"):
     time.sleep(inputSleep)
 bottomRight = pyautogui.position()
 bottom = bottomRight.y
@@ -55,8 +76,7 @@ image.save("targeting-image.png")
 
 changed = True
 while True:
-
-    if detectPress("ctrl"):
+    if detectPress("Key.ctrl"):
         break
 
     if detectPress("w"):
@@ -75,23 +95,23 @@ while True:
         changed = True
         left +=1
 
-    if detectPress("up"):
+    if detectPress("Key.up"):
         changed = True
         bottom -= 1
 
-    if detectPress("left"):
+    if detectPress("Key.left"):
         changed = True
         right -= 1
 
-    if detectPress("down"):
+    if detectPress("Key.down"):
         changed = True
         bottom += 1
 
-    if detectPress("right"):
+    if detectPress("Key.right"):
         changed = True
         right +=1
 
-    if detectPress("shift"):
+    if detectPress("Key.shift"):
         image = pyautogui.screenshot(region=(left, top, right - left, bottom - top))
         image.save("targeting-image.png")
 
@@ -110,7 +130,7 @@ print("now input number of pages")
 pages = inputInteger()
 
 print("select ebook tab and press ctrl")
-while not detectPress("ctrl"):
+while not detectPress("Key.ctrl"):
     time.sleep(inputSleep)
 
 os.mkdir(folderName)
@@ -118,6 +138,6 @@ for page in range(pages):
         print("page " + str(page+1) + " / " + str(pages))
         image = pyautogui.screenshot(region=(left, top, right - left, bottom - top))
         image.save(folderName + "/" + str(page) + ".png")
-        keyboard.press("pagedown")
-        keyboard.release("pagedown")
+        keyboardController.press(keyboard.Key.page_down)
+        keyboardController.release(keyboard.Key.page_down)
         time.sleep(2)
