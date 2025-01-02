@@ -16,10 +16,16 @@ left = 0
 # ------ START OF SECTION ------
 keyStatuses = {}
 def on_press(key):
-    keyStatuses[str(key)] = True
+    if(type(key) == keyboard.Key):
+        keyStatuses[str(key)] = True
+    else:
+        keyStatuses[str(key.char)] = True
     
 def on_release(key):
-    keyStatuses[str(key)] = False
+    if(type(key) == keyboard.Key):
+        keyStatuses[str(key)] = False
+    else:
+        keyStatuses[str(key.char)] = False
     
 listener = keyboard.Listener(
     on_press=on_press,
@@ -79,19 +85,19 @@ while True:
     if detectPress("Key.ctrl"):
         break
 
-    if detectPress("w"):
+    if detectPress('w'):
         changed = True
         top -= 1
 
-    if detectPress("a"):
+    if detectPress('a'):
         changed = True
         left -= 1
 
-    if detectPress("s"):
+    if detectPress('s'):
         changed = True
         top += 1
 
-    if detectPress("d"):
+    if detectPress('d'):
         changed = True
         left +=1
 
