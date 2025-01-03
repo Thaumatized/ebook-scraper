@@ -7,6 +7,7 @@ import os
 keyboardController = keyboard.Controller()
 
 inputSleep = 0.01
+pageWaitSleep = 5
 
 top = 0
 right = 0
@@ -43,7 +44,7 @@ def detectPress(keycode):
         return False
 
     while keyStatuses[keycode]:
-        time.sleep(0.01)
+        time.sleep(inputSleep)
 
     return True
 # ------ END OF SECTION ------
@@ -124,6 +125,8 @@ while True:
     if changed:
         changed = False
         print("top: " + str(top) + "right: " + str(right) + "bottom: " + str(bottom) + "left: " + str(left))
+    
+    time.sleep(inputSleep)
 
 
 
@@ -146,4 +149,4 @@ for page in range(pages):
         image.save(folderName + "/" + str(page) + ".png")
         keyboardController.press(keyboard.Key.page_down)
         keyboardController.release(keyboard.Key.page_down)
-        time.sleep(2)
+        time.sleep(pageWaitSleep)
