@@ -1,13 +1,14 @@
-import pyautogui
-from pynput import keyboard
+from PIL import ImageGrab
+from pynput import keyboard, mouse
 
 import time
 import os
 
 keyboardController = keyboard.Controller()
+mouseController = mouse.Controller()
 
 inputSleep = 0.01
-pageWaitSleep = 5
+pageWaitSleep = 2
 
 top = 0
 right = 0
@@ -62,23 +63,23 @@ print("Lets start with the rough coordinates.")
 print("Move your mouse to the top left corner and press ctrl")
 while not detectPress("Key.ctrl"):
     time.sleep(inputSleep)
-topLeft = pyautogui.position()
-top = topLeft.y
-left = topLeft.x
+topLeft = mouseController.position
+left = topLeft[0]
+top = topLeft[1]
 
 print("Move your mouse to the bottom Right corner and press ctrl")
 while not detectPress("Key.ctrl"):
     time.sleep(inputSleep)
-bottomRight = pyautogui.position()
-bottom = bottomRight.y
-right = bottomRight.x
+bottomRight = mouseController.position
+right = bottomRight[0]
+bottom = bottomRight[1 ]
 
 print()
 print("Now for fine adjustment. Use WASD to move the top left corner and the ARROW KEYS to move the bottom right corner.")
 print("SHIFT to take new targeting image.")
 print("CTRL to confirm.")
 
-image = pyautogui.screenshot(region=(left, top, right - left, bottom - top))
+image = ImageGrab.grab((left, top, right, bottom))
 image.save("targeting-image.png")
 
 changed = True
@@ -119,7 +120,7 @@ while True:
         right +=1
 
     if detectPress("Key.shift"):
-        image = pyautogui.screenshot(region=(left, top, right - left, bottom - top))
+        image = ImageGrab.grab((left, top, right, bottom))
         image.save("targeting-image.png")
 
     if changed:
@@ -145,7 +146,7 @@ while not detectPress("Key.ctrl"):
 os.mkdir(folderName)
 for page in range(pages):
         print("page " + str(page+1) + " / " + str(pages))
-        image = pyautogui.screenshot(region=(left, top, right - left, bottom - top))
+        image = ImageGrab.grab((left, top, right, bottom))
         image.save(folderName + "/" + str(page) + ".png")
         keyboardController.press(keyboard.Key.page_down)
         keyboardController.release(keyboard.Key.page_down)

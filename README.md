@@ -4,7 +4,7 @@ Hi!
 
 This scraper is used to convert ebooks into images for printing.
 
-To use install pyautogui and pynput and call
+To use install pillow and pynput and call
 > python3 ebook-scraper.py
 
 the instructions will take you from there.
