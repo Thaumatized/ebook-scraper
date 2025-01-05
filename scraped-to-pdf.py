@@ -7,7 +7,7 @@ def folderToPdf(folder):
 
     imageCount = 0
 
-    pdf_path = "pdf.pdf"
+    pdf_path = os.path.join("output", "pdf.pdf")
     for entry in obj:
         if entry.is_file() and len(entry.name) > 4 and entry.name[-4:] == ".png":
             imageCount += 1
@@ -20,4 +20,5 @@ if __name__ == "__main__":
     folder = ""
     while folder == "":
         folder = input()
+    folder = os.path.join("output", folder)
     folderToPdf(folder)

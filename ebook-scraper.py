@@ -1,6 +1,5 @@
 from PIL import ImageGrab
 from pynput import keyboard, mouse
-
 import time
 import os
 
@@ -80,7 +79,7 @@ print("SHIFT to take new targeting image.")
 print("CTRL to confirm.")
 
 image = ImageGrab.grab((left, top, right, bottom))
-image.save("targeting-image.png")
+image.save(os.path.join("output","targeting-image.png"))
 
 changed = True
 while True:
@@ -121,7 +120,7 @@ while True:
 
     if detectPress("Key.shift"):
         image = ImageGrab.grab((left, top, right, bottom))
-        image.save("targeting-image.png")
+        image.save(os.path.join("output","targeting-image.png"))
 
     if changed:
         changed = False
@@ -135,8 +134,9 @@ print("name the folder to save to")
 folderName = ""
 while folderName == "":
     folderName = input()
+folderName = os.path.join("output", folderName)
 
-print("now input number of pages")
+print("now input number of pages");
 pages = inputInteger()
 
 print("select ebook tab and press ctrl")
@@ -147,7 +147,7 @@ os.mkdir(folderName)
 for page in range(pages):
         print("page " + str(page+1) + " / " + str(pages))
         image = ImageGrab.grab((left, top, right, bottom))
-        image.save(folderName + "/" + str(page) + ".png")
+        image.save(os.path.join(folderName, str(page) + ".png"))
         keyboardController.press(keyboard.Key.page_down)
         keyboardController.release(keyboard.Key.page_down)
         time.sleep(pageWaitSleep)
