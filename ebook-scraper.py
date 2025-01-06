@@ -148,6 +148,6 @@ for page in range(pages):
         print("page " + str(page+1) + " / " + str(pages))
         image = ImageGrab.grab((left, top, right, bottom))
         image.save(os.path.join(folderName, str(page) + ".png"))
-        keyboardController.press(keyboard.Key.page_down)
-        keyboardController.release(keyboard.Key.page_down)
+        keyboardController.press(keyboard.Key.right)
+        keyboardController.release(keyboard.Key.right)
         time.sleep(pageWaitSleep)
