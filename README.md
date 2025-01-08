@@ -17,7 +17,3 @@ To make the images into a pdf call
 > python3 pdfGenerator.py
 
 the instructions will take you from there.
-
-### Future plans
-
-I want to replace pyautogui with just pillow and pynput, since pynput should allow for everything I need from pyautogui except screenshot. Pyautogui is a leftover from when this project used keyboard and wasn't compatible with linux for that reason.
