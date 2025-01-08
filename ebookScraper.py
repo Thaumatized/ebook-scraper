@@ -75,12 +75,14 @@ right = bottomRight[0]
 bottom = bottomRight[1 ]
 
 print()
-print("Now for fine adjustment. Use WASD to move the top left corner and the ARROW KEYS to move the bottom right corner.")
+print("Now for fine adjustment.")
+print("In the same folder as the program there is now \"targeting-image.png\", which you can use as a reference for adjusting.")
+print("Use WASD to move the top left corner and the ARROW KEYS to move the bottom right corner.")
 print("SHIFT to take new targeting image.")
 print("CTRL to confirm.")
 
 image = ImageGrab.grab((left, top, right, bottom))
-image.save(os.path.join("output","targeting-image.png"))
+image.save("targeting-image.png")
 
 changed = True
 while True:
@@ -121,7 +123,7 @@ while True:
 
     if detectPress("Key.shift"):
         image = ImageGrab.grab((left, top, right, bottom))
-        image.save(os.path.join("output","targeting-image.png"))
+        image.save("targeting-image.png")
 
     if changed:
         changed = False
@@ -153,4 +155,6 @@ for page in range(pages):
         keyboardController.press(keyboard.Key.right)
         keyboardController.release(keyboard.Key.right)
         time.sleep(pageWaitSleep)
+
+print("Generating PDF to " + outputFile)
 folderToPdf(folderName, outputFile)
